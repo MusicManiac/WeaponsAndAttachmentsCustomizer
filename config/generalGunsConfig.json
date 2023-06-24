@@ -2,9 +2,9 @@
 	"settingsDescription": {
 		"desc1": "Each section has up to 3 toggles (set to false/false). Only enable 1 of them, otherwise no edits will be made.",
 
-		"desc2": "multipliers apply to a value and it's %-based. 1.0 means no multipier, 1.2 means 20% multiplier, and so on.",
+		"desc2": "multipliers apply to a value and it's %-based. 1.0 means no multiplier, 1.2 means 20% multiplier, and so on.",
 
-		"desc3": "absolute value simply override values. Meaning all values would be changed to it, withut the regard of what it was before. For example, setting recoil ergonomics value to 90 will make all guns have base 90 recoil.",
+		"desc3": "absolute value simply override values. Meaning all values would be changed to it, without the regard of what it was before. For example, setting recoil ergonomics value to 90 will make all guns have base 90 recoil.",
 
 		"desc4": "maximum/minimum value simply override values that are above/below set number. For minimum value, if any gun has selected stat below that, it will be bumped up to it. For maximum, it's the same but other way around. For example, setting vertical recoil maximum value to 200 will make all guns that have MORE than 200 vertical recoil (for example, 250) have 200 vertical recoil."
 	},
