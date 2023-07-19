@@ -6,6 +6,7 @@ class WeaponsAndAttachmentsCustomizer {
         this.generalGunsConfig = require("../config/generalGunsConfig.json");
         this.silencersConfig = require("../config/silencersConfig.json");
         this.scopesConfig = require("../config/scopesConfig.json");
+        this.specificGunsConfig = require("../config/specificGunsConfig.json");
     }
     adjustMultiplier(initial, multiplier) {
         initial = initial - 1;
@@ -53,6 +54,10 @@ class WeaponsAndAttachmentsCustomizer {
             this.generalGunsConfig.firerateSection.useFirerateAbsoluteValue,
             this.generalGunsConfig.firerateSection.useFirerateMinimumValue
         ].filter(Boolean).length;
+        const updateGunsFiremodes = [
+            this.generalGunsConfig.firemodeSection.addFullAuto,
+            this.generalGunsConfig.firemodeSection.removeBurst
+        ].filter(Boolean).length;
         const updateSilencersRecoil = [
             this.silencersConfig.recoilSection.useRecoilMultiplier,
             this.silencersConfig.recoilSection.useRecoilAbsoluteValue,
@@ -98,7 +103,74 @@ class WeaponsAndAttachmentsCustomizer {
             this.scopesConfig.ergonomicsSection.useErgonomicsAbsoluteValue,
             this.scopesConfig.ergonomicsSection.useMinimumErgonomicsValue
         ].filter(Boolean).length;
-        let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0;
+        let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0;
+        // do specific guns config
+        for (let weaponGroup in this.specificGunsConfig) {
+            for (let gun in this.specificGunsConfig[weaponGroup]) {
+                try {
+                    let selectedGun = this.specificGunsConfig[weaponGroup][gun];
+                    let gunUpdated = false;
+                    if (selectedGun.ergonomicsAbsolute !== -1) {
+                        itemDB[selectedGun.id]._props.Ergonomics = selectedGun.ergonomicsAbsolute;
+                        gunUpdated = true;
+                    }
+                    else {
+                        itemDB[selectedGun.id]._props.Ergonomics *= selectedGun.ergonomicsMultiplier;
+                        if (selectedGun.ergonomicsMultiplier !== 1) {
+                            gunUpdated = true;
+                        }
+                    }
+                    if (selectedGun.verticalRecoilAbsolute !== -1) {
+                        itemDB[selectedGun.id]._props.RecoilForceUp = selectedGun.verticalRecoilAbsolute;
+                        gunUpdated = true;
+                    }
+                    else {
+                        itemDB[selectedGun.id]._props.RecoilForceUp *= selectedGun.verticalRecoilMultiplier;
+                        if (selectedGun.verticalRecoilMultiplier !== 1) {
+                            gunUpdated = true;
+                        }
+                    }
+                    if (selectedGun.horizontalRecoilAbsolute !== -1) {
+                        itemDB[selectedGun.id]._props.RecoilForceBack = selectedGun.horizontalRecoilAbsolute;
+                        gunUpdated = true;
+                    }
+                    else {
+                        itemDB[selectedGun.id]._props.RecoilForceBack *= selectedGun.horizontalRecoilMultiplier;
+                        if (selectedGun.horizontalRecoilMultiplier !== 1) {
+                            gunUpdated = true;
+                        }
+                    }
+                    if (selectedGun.cameraSnapAbsolute !== -1) {
+                        itemDB[selectedGun.id]._props.CameraSnap = selectedGun.cameraSnapAbsolute;
+                        gunUpdated = true;
+                    }
+                    else {
+                        itemDB[selectedGun.id]._props.CameraSnap *= selectedGun.cameraSnapMultiplier;
+                        if (selectedGun.cameraSnapMultiplier !== 1) {
+                            gunUpdated = true;
+                        }
+                    }
+                    if (selectedGun.cameraRecoilAbsolute !== -1) {
+                        itemDB[selectedGun.id]._props.CameraRecoil = selectedGun.cameraRecoilAbsolute;
+                        gunUpdated = true;
+                    }
+                    else {
+                        itemDB[selectedGun.id]._props.CameraRecoil *= selectedGun.cameraRecoilMultiplier;
+                        if (selectedGun.cameraRecoilMultiplier !== 1) {
+                            gunUpdated = true;
+                        }
+                    }
+                    if (gunUpdated) {
+                        specificGunsUpdates++;
+                    }
+                }
+                catch (err) {
+                    logger.info("[WeaponsAndAttachmentsCustomizer] failed to update specific weapon with id " + this.specificGunsConfig[weaponGroup][gun].id);
+                    continue;
+                }
+            }
+        }
+        // do general guns config
         for (let item in itemDB) {
             // if it's weapon that's not a knife
             if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses_1.BaseClasses.WEAPON)) {
@@ -131,10 +203,10 @@ class WeaponsAndAttachmentsCustomizer {
                     }
                     // Horizontal Recoil
                     if (updateGunsHorizontalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceBack")) {
-                        if (this.generalGunsConfig.horizontalRecoilSection.useVerticalRecoilMultiplier) {
-                            itemDB[item]._props.RecoilForceBack *= this.generalGunsConfig.horizontalRecoilSection.verticalRecoilMultiplier;
+                        if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilMultiplier) {
+                            itemDB[item]._props.RecoilForceBack *= this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilMultiplier;
                         }
-                        else if (this.generalGunsConfig.horizontalRecoilSection.useVerticalRecoilAbsoluteValue) {
+                        else if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilAbsoluteValue) {
                             itemDB[item]._props.RecoilForceBack = this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilAbsoluteValue;
                         }
                         else if (itemDB[item]._props.RecoilForceBack > this.generalGunsConfig.horizontalRecoilSection.maximumHorizontalRecoilValue) {
@@ -150,8 +222,8 @@ class WeaponsAndAttachmentsCustomizer {
                         else if (this.generalGunsConfig.cameraSnapSection.useCameraSnapAbsoluteValue) {
                             itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.cameraSnapAbsoluteValue;
                         }
-                        else if (itemDB[item]._props.CameraSnap < this.generalGunsConfig.cameraSnapSection.minimumHorizontalRecoilValue) {
-                            itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.minimumHorizontalRecoilValue;
+                        else if (itemDB[item]._props.CameraSnap < this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue) {
+                            itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue;
                         }
                         gunsCameraSnapUpdates++;
                     }
@@ -193,6 +265,25 @@ class WeaponsAndAttachmentsCustomizer {
                             itemDB[item]._props.bFirerate = this.generalGunsConfig.firerateSection.minimumFirerateValue;
                         }
                         gunsFirerateUpdates++;
+                    }
+                    //Firemodes
+                    if (updateGunsFiremodes !== 0 && itemDB[item]._props.hasOwnProperty("weapFireType")) {
+                        if (this.generalGunsConfig.firemodeSection.addFullAuto) {
+                            if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses_1.BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.addToSMG && !itemDB[item]._props.weapFireType.includes("fullauto")) {
+                                itemDB[item]._props.weapFireType.push("fullauto");
+                                gunsFiremodeChanges++;
+                            }
+                        }
+                        if (this.generalGunsConfig.firemodeSection.removeBurst) {
+                            if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses_1.BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.removeFromSMG && itemDB[item]._props.weapFireType.includes("burst")) {
+                                itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
+                                gunsFiremodeChanges++;
+                            }
+                            if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses_1.BaseClasses.ASSAULT_RIFLE) && this.generalGunsConfig.firemodeSection.removeFromAssaultRifles && itemDB[item]._props.weapFireType.includes("burst")) {
+                                itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
+                                gunsFiremodeChanges++;
+                            }
+                        }
                     }
                 }
                 catch (err) {
@@ -352,6 +443,12 @@ class WeaponsAndAttachmentsCustomizer {
             }
         }
         logger.info("[WeaponsAndAttachmentsCustomizer] MusicManiac - WeaponsAndAttachmentsCustomizer Loaded:");
+        if (specificGunsUpdates === 0) {
+            logger.info("[WeaponsAndAttachmentsCustomizer] specificGunsConfig.json is not touched, no specific guns will be updated");
+        }
+        else {
+            logger.info("[WeaponsAndAttachmentsCustomizer] " + specificGunsUpdates + " weapons from specificGunsConfig.json had their stats adjusted");
+        }
         if (updateGunsErgo === 0) {
             logger.info("[WeaponsAndAttachmentsCustomizer] All guns ergonomics options are disabled, no guns will be updated");
         }
@@ -414,6 +511,12 @@ class WeaponsAndAttachmentsCustomizer {
         }
         else {
             logger.info("[WeaponsAndAttachmentsCustomizer] " + gunsFirerateUpdates + " weapons had their firerate adjusted");
+        }
+        if (updateGunsFiremodes === 0) {
+            logger.info("[WeaponsAndAttachmentsCustomizer] All guns firemode options are disabled, no guns will be updated");
+        }
+        else {
+            logger.info("[WeaponsAndAttachmentsCustomizer] " + gunsFiremodeChanges + " weapons had their firemode adjusted");
         }
         if (updateSilencersRecoil === 0) {
             logger.info("[WeaponsAndAttachmentsCustomizer] All silencers recoil options are disabled, no silencers will be updated");

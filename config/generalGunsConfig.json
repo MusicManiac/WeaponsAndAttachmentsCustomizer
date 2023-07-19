@@ -11,7 +11,7 @@
 
 	"ergonomicsSection": {
 		"useErgonomicsMultiplier": true,
-		"ergonomicsMultiplier": 1.4,
+		"ergonomicsMultiplier": 1.2,
 
 		"useErgonomicsAbsoluteValue": false,
 		"ergonomicsAbsoluteValue": 90,
@@ -50,7 +50,7 @@
 		"cameraSnapAbsoluteValue": 3.5,
 
 		"useMinimumCameraSnapValue": false,
-		"minimumHorizontalRecoilValue": 1
+		"minimumCameraSnapValue": 1
 	},
 
 	"cameraRecoilSection" : {
@@ -84,6 +84,15 @@
 
 		"useFirerateMinimumValue": false,
 		"minimumFirerateValue": 100
+	},
+
+	"firemodeSection" : {
+		"addFullAuto": true,
+		"addToSMG": true,
+
+		"removeBurst": true,
+		"removeFromSMG": true,
+		"removeFromAssaultRifles": true
 	}
 }
 	
