@@ -32,8 +32,8 @@
 	},
 
 	"horizontalRecoilSection" : {
-		"useHorizontalRecoilMultiplier": true,
-		"verticalRecoilMultiplier": 0.75,
+		"useHorizontalRecoilMultiplier": false,
+		"horizontalRecoilMultiplier": 0.75,
 
 		"useHorizontalRecoilAbsoluteValue": false,
 		"horizontalRecoilAbsoluteValue": 100,

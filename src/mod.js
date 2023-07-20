@@ -110,53 +110,54 @@ class WeaponsAndAttachmentsCustomizer {
                 try {
                     let selectedGun = this.specificGunsConfig[weaponGroup][gun];
                     let gunUpdated = false;
-                    if (selectedGun.ergonomicsAbsolute !== -1) {
-                        itemDB[selectedGun.id]._props.Ergonomics = selectedGun.ergonomicsAbsolute;
-                        gunUpdated = true;
-                    }
-                    else {
-                        itemDB[selectedGun.id]._props.Ergonomics *= selectedGun.ergonomicsMultiplier;
-                        if (selectedGun.ergonomicsMultiplier !== 1) {
+                    if (itemDB[selectedGun.id]._props.hasOwnProperty("Ergonomics")) {
+                        if (selectedGun.ergonomicsAbsolute !== -1) {
+                            itemDB[selectedGun.id]._props.Ergonomics = selectedGun.ergonomicsAbsolute;
+                            gunUpdated = true;
+                        }
+                        else if (selectedGun.ergonomicsMultiplier !== 1) {
+                            itemDB[selectedGun.id]._props.Ergonomics *= selectedGun.ergonomicsMultiplier;
                             gunUpdated = true;
                         }
                     }
-                    if (selectedGun.verticalRecoilAbsolute !== -1) {
-                        itemDB[selectedGun.id]._props.RecoilForceUp = selectedGun.verticalRecoilAbsolute;
-                        gunUpdated = true;
-                    }
-                    else {
-                        itemDB[selectedGun.id]._props.RecoilForceUp *= selectedGun.verticalRecoilMultiplier;
-                        if (selectedGun.verticalRecoilMultiplier !== 1) {
+                    if (itemDB[selectedGun.id]._props.hasOwnProperty("RecoilForceUp")) {
+                        if (selectedGun.verticalRecoilAbsolute !== -1) {
+                            itemDB[selectedGun.id]._props.RecoilForceUp = selectedGun.verticalRecoilAbsolute;
+                            gunUpdated = true;
+                        }
+                        else if (selectedGun.verticalRecoilMultiplier !== 1) {
+                            itemDB[selectedGun.id]._props.RecoilForceUp *= selectedGun.verticalRecoilMultiplier;
                             gunUpdated = true;
                         }
                     }
-                    if (selectedGun.horizontalRecoilAbsolute !== -1) {
-                        itemDB[selectedGun.id]._props.RecoilForceBack = selectedGun.horizontalRecoilAbsolute;
-                        gunUpdated = true;
-                    }
-                    else {
-                        itemDB[selectedGun.id]._props.RecoilForceBack *= selectedGun.horizontalRecoilMultiplier;
-                        if (selectedGun.horizontalRecoilMultiplier !== 1) {
+                    if (itemDB[selectedGun.id]._props.hasOwnProperty("RecoilForceBack")) {
+                        logger.info("[WeaponsAndAttachmentsCustomizer] item id " + itemDB[selectedGun.id]._id + " has RecoilForceBack set to " + itemDB[selectedGun.id]._props.RecoilForceBack);
+                        if (selectedGun.horizontalRecoilAbsolute !== -1) {
+                            itemDB[selectedGun.id]._props.RecoilForceBack = selectedGun.horizontalRecoilAbsolute;
+                            gunUpdated = true;
+                        }
+                        else if (selectedGun.horizontalRecoilMultiplier !== 1) {
+                            itemDB[selectedGun.id]._props.RecoilForceBack *= selectedGun.horizontalRecoilMultiplier;
                             gunUpdated = true;
                         }
                     }
-                    if (selectedGun.cameraSnapAbsolute !== -1) {
-                        itemDB[selectedGun.id]._props.CameraSnap = selectedGun.cameraSnapAbsolute;
-                        gunUpdated = true;
-                    }
-                    else {
-                        itemDB[selectedGun.id]._props.CameraSnap *= selectedGun.cameraSnapMultiplier;
-                        if (selectedGun.cameraSnapMultiplier !== 1) {
+                    if (itemDB[selectedGun.id]._props.hasOwnProperty("CameraSnap")) {
+                        if (selectedGun.cameraSnapAbsolute !== -1) {
+                            itemDB[selectedGun.id]._props.CameraSnap = selectedGun.cameraSnapAbsolute;
+                            gunUpdated = true;
+                        }
+                        else if (selectedGun.cameraSnapMultiplier !== 1) {
+                            itemDB[selectedGun.id]._props.CameraSnap *= selectedGun.cameraSnapMultiplier;
                             gunUpdated = true;
                         }
                     }
-                    if (selectedGun.cameraRecoilAbsolute !== -1) {
-                        itemDB[selectedGun.id]._props.CameraRecoil = selectedGun.cameraRecoilAbsolute;
-                        gunUpdated = true;
-                    }
-                    else {
-                        itemDB[selectedGun.id]._props.CameraRecoil *= selectedGun.cameraRecoilMultiplier;
-                        if (selectedGun.cameraRecoilMultiplier !== 1) {
+                    if (itemDB[selectedGun.id]._props.hasOwnProperty("CameraRecoil")) {
+                        if (selectedGun.cameraRecoilAbsolute !== -1) {
+                            itemDB[selectedGun.id]._props.CameraRecoil = selectedGun.cameraRecoilAbsolute;
+                            gunUpdated = true;
+                        }
+                        else if (selectedGun.cameraRecoilMultiplier !== 1) {
+                            itemDB[selectedGun.id]._props.CameraRecoil *= selectedGun.cameraRecoilMultiplier;
                             gunUpdated = true;
                         }
                     }
@@ -203,6 +204,7 @@ class WeaponsAndAttachmentsCustomizer {
                     }
                     // Horizontal Recoil
                     if (updateGunsHorizontalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceBack")) {
+                        logger.info("[WeaponsAndAttachmentsCustomizer] item id " + itemDB[item]._id + " has RecoilForceBack set to " + itemDB[item]._props.RecoilForceBack);
                         if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilMultiplier) {
                             itemDB[item]._props.RecoilForceBack *= this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilMultiplier;
                         }
