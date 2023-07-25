@@ -11,6 +11,7 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 	private silencersConfig = require("../config/silencersConfig.json");
 	private scopesConfig = require("../config/scopesConfig.json");
 	private specificGunsConfig = require("../config/specificGunsConfig.json");
+	private meleeConfig = require("../config/meleeConfig.json");
 
 	public adjustMultiplier(initial, multiplier)
 	{
@@ -137,7 +138,7 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 			this.scopesConfig.ergonomicsSection.useMinimumErgonomicsValue
 		].filter(Boolean).length;
 		
-		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0;
+		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0, meleeUpdates = 0;
 		// do specific guns config
 		for (let weaponGroup in this.specificGunsConfig) {
 			for (let gun in this.specificGunsConfig[weaponGroup]) {
@@ -198,9 +199,41 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 				}
 			}
 		}
-		// do general guns config
+		// do configs
 		for (let item in itemDB) {
-			// if it's weapon that's not a knife
+			// if it's a knife
+			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.KNIFE)) {
+				try {
+					if (!(this.meleeConfig.excludeCultistKnife && itemDB[item]._id === "5fc64ea372b0dd78d51159dc") || !(this.meleeConfig.excludeTagillaHammer && itemDB[item]._id === "6087e570b998180e9f76dc24")) {
+						let updatedKnife = false;
+						// Slash Damage
+						if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
+							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.damageMultiplier;
+							updatedKnife = true;
+						}
+						// Stab Damage
+						if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
+							itemDB[item]._props.knifeHitStabDam *= this.meleeConfig.damageMultiplier;
+							updatedKnife = true;
+						}
+						// Slash Penetration
+						if (itemDB[item]._props.hasOwnProperty("SlashPenetration")) {
+							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.slashPenetrationMultiplier;
+							updatedKnife = true;
+						}
+						// Slash Penetration
+						if (itemDB[item]._props.hasOwnProperty("StabPenetration")) {
+							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.stabPenetrationMultiplier;
+							updatedKnife = true;
+						}
+						if (updatedKnife) { meleeUpdates++; }
+					}
+				} catch (err) {
+					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update knife with id " + itemDB[item]._id);
+					continue;
+				}
+			}
+			// if it's firearm
 			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.WEAPON)) {
 				try {
 					// Ergonomics
@@ -439,6 +472,11 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 		}
 		
 		logger.info("[WeaponsAndAttachmentsCustomizer] MusicManiac - WeaponsAndAttachmentsCustomizer Loaded:");
+		if (meleeUpdates === 0) {
+			logger.info("[WeaponsAndAttachmentsCustomizer] meleeConfig.json is not touched or no knifes were updated");
+		} else {
+			logger.info("[WeaponsAndAttachmentsCustomizer] " + meleeUpdates + " melee weapons had their stats adjusted");
+		}
 		if (specificGunsUpdates === 0) {
 			logger.info("[WeaponsAndAttachmentsCustomizer] specificGunsConfig.json is not touched, no specific guns will be updated");
 		} else {

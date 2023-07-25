@@ -1,0 +1,9 @@
+{
+	"damageMultiplier": 5,
+	"slashPenetrationMultiplier": 1,
+	"stabPenetrationMultiplier": 1,
+
+	"excludeCultistKnife": true,
+	"excludeTagillaHammer": true
+}
+	

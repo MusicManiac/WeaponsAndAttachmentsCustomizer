@@ -10,8 +10,8 @@
 	},
 
 	"ergonomicsSection": {
-		"useErgonomicsMultiplier": true,
-		"ergonomicsMultiplier": 1.22,
+		"useErgonomicsMultiplier": false,
+		"ergonomicsMultiplier": 1.0,
 
 		"useErgonomicsAbsoluteValue": false,
 		"ergonomicsAbsoluteValue": 90,
@@ -21,8 +21,8 @@
 	},
 
 	"verticalRecoilSection" : {
-		"useVerticalRecoilMultiplier": true,
-		"verticalRecoilMultiplier": 0.78,
+		"useVerticalRecoilMultiplier": false,
+		"verticalRecoilMultiplier": 1.0,
 
 		"useVerticalRecoilAbsoluteValue": false,
 		"verticalRecoilAbsoluteValue": 100,
@@ -33,7 +33,7 @@
 
 	"horizontalRecoilSection" : {
 		"useHorizontalRecoilMultiplier": false,
-		"horizontalRecoilMultiplier": 0.92,
+		"horizontalRecoilMultiplier": 1.0,
 
 		"useHorizontalRecoilAbsoluteValue": false,
 		"horizontalRecoilAbsoluteValue": 100,
@@ -44,7 +44,7 @@
 
 	"cameraSnapSection" : {
 		"useCameraSnapMultiplier": false,
-		"cameraSnapMultiplier": 1,
+		"cameraSnapMultiplier": 1.0,
 
 		"useCameraSnapAbsoluteValue": false,
 		"cameraSnapAbsoluteValue": 3.5,
@@ -54,8 +54,8 @@
 	},
 
 	"cameraRecoilSection" : {
-		"useCameraRecoilMultiplier": true,
-		"cameraRecoilMultiplier": 0.92,
+		"useCameraRecoilMultiplier": false,
+		"cameraRecoilMultiplier": 1.0,
 
 		"useCameraRecoilAbsoluteValue": false,
 		"cameraRecoilAbsoluteValue": 0.07,
@@ -65,8 +65,8 @@
 	},
 
 	"durabilitySection" : {
-		"useDurabilityBurnMultiplier": true,
-		"durabilityBurnMultiplier": 0.2,
+		"useDurabilityBurnMultiplier": false,
+		"durabilityBurnMultiplier": 1.0,
 
 		"useDurabilityBurnAbsoluteValue": false,
 		"durabilityBurnAbsoluteValue": 1.0,
@@ -87,12 +87,12 @@
 	},
 
 	"firemodeSection" : {
-		"addFullAuto": true,
-		"addToSMG": true,
+		"addFullAuto": false,
+		"addToSMG": false,
 
-		"removeBurst": true,
-		"removeFromSMG": true,
-		"removeFromAssaultRifles": true
+		"removeBurst": false,
+		"removeFromSMG": false,
+		"removeFromAssaultRifles": false
 	}
 }
 	
