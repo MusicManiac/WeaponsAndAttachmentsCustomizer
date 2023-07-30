@@ -1081,11 +1081,11 @@
 	"g28 group": {
 		"HK G28 7.62x51 marksman rifle" :{
 			"id": "6176aca650224f204c1da3fb",
-			"ergonomicsMultiplier": 1.15,
+			"ergonomicsMultiplier": 1.2,
 			"ergonomicsAbsolute": -1,
 			"verticalRecoilMultiplier": 1,
 			"verticalRecoilAbsolute": -1,
-			"horizontalRecoilMultiplier": 0.85,
+			"horizontalRecoilMultiplier": 0.8,
 			"horizontalRecoilAbsolute": -1,
 			"cameraSnapMultiplier": 1,
 			"cameraSnapAbsolute": -1,
@@ -1414,9 +1414,9 @@
 	"m9a3 group": {
 		"Beretta M9A3 9x19 pistol" :{
 			"id": "5cadc190ae921500103bb3b6",
-			"ergonomicsMultiplier": 1,
+			"ergonomicsMultiplier": 1.1,
 			"ergonomicsAbsolute": -1,
-			"verticalRecoilMultiplier": 1,
+			"verticalRecoilMultiplier": 0.9,
 			"verticalRecoilAbsolute": -1,
 			"horizontalRecoilMultiplier": 1,
 			"horizontalRecoilAbsolute": -1,

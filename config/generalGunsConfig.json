@@ -33,7 +33,7 @@
 
 	"horizontalRecoilSection" : {
 		"useHorizontalRecoilMultiplier": false,
-		"horizontalRecoilMultiplier": 0.92,
+		"horizontalRecoilMultiplier": 0.89,
 
 		"useHorizontalRecoilAbsoluteValue": false,
 		"horizontalRecoilAbsoluteValue": 100,
@@ -55,7 +55,7 @@
 
 	"cameraRecoilSection" : {
 		"useCameraRecoilMultiplier": true,
-		"cameraRecoilMultiplier": 0.92,
+		"cameraRecoilMultiplier": 0.89,
 
 		"useCameraRecoilAbsoluteValue": false,
 		"cameraRecoilAbsoluteValue": 0.07,

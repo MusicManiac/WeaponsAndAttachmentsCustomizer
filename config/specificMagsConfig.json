@@ -1,0 +1,31 @@
+{
+	"Mags" : {
+		"AK-74 5.45x39 6L26 45-round magazine" : {
+			"id": "55d481904bdc2d8c2f8b456a",
+			"AmmoFilter" : [
+				"5c0d688c86f77413ae3407b2",
+				"61962d879bb3d20b0946d385",
+				"57a0dfb82459774d3078b56c",
+				"57a0e5022459774d1673f889",
+				"5c0d668f86f7747ccb7f13b2"
+			]
+		},
+		"HK UMP .45 ACP 25-round magazine" : {
+			"id": "5fc3e466187fea44d52eda90",
+			"_max_count" : 35
+		},
+		"M9A3 9x19 17-round magazine" : {
+			"id": "5cadc2e0ae9215051e1c21e7",
+			"_max_count" : 21
+		}
+	},
+	"Guns" : {
+		"AS VAL 9x39 special assault rifle" : {
+			"id": "57c44b372459772d2b39b8ce",
+			"MagsFilter" : [
+				"55d481904bdc2d8c2f8b456a"
+			]
+		}
+	}
+	
+}

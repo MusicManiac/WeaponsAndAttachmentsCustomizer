@@ -12,6 +12,7 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 	private scopesConfig = require("../config/scopesConfig.json");
 	private specificGunsConfig = require("../config/specificGunsConfig.json");
 	private meleeConfig = require("../config/meleeConfig.json");
+	private magsConfig = require("../config/specificMagsConfig.json");
 
 	public adjustMultiplier(initial, multiplier)
 	{
@@ -138,7 +139,69 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 			this.scopesConfig.ergonomicsSection.useMinimumErgonomicsValue
 		].filter(Boolean).length;
 		
-		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0, meleeUpdates = 0;
+		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0, meleeUpdates = 0, magsUpdated = 0, gunMagFiltersUpdated = 0;
+		// do specific mags config
+		for (let mags in this.magsConfig.Mags) {
+			try {
+				let selectedMag = this.magsConfig.Mags[mags];
+				let magUpdated = false;
+				const existingFilter = itemDB[selectedMag.id]._props.Cartridges[0]._props.filters[0].Filter;
+				if (Array.isArray(existingFilter) && selectedMag.hasOwnProperty('AmmoFilter')) {
+					// Merge the IDs from the config into the existing filter array
+					selectedMag.AmmoFilter.forEach((id) => {
+						existingFilter.push(id);
+						magUpdated = true;
+					});
+					//logger.info("[WeaponsAndAttachmentsCustomizer] updated specific mag with id " + selectedMag.id);
+				}
+				if (selectedMag.hasOwnProperty('_max_count')) {
+					itemDB[selectedMag.id]._props.Cartridges[0]._max_count = selectedMag._max_count;
+					magUpdated = true;
+					//logger.info("[WeaponsAndAttachmentsCustomizer] updated specific mag with id " + selectedMag.id);
+				}
+				if (magUpdated) {
+					magsUpdated++;
+				}
+			} catch (err) {
+				logger.info("[WeaponsAndAttachmentsCustomizer] failed to update specific mag with id " + this.magsConfig.Mags[mags].id);
+				continue;
+			}
+		}
+		for (let gun in this.magsConfig.Guns) {
+			try {
+				let selectedGun = this.magsConfig.Guns[gun];
+				let gunUpdated = false;
+				
+				if (selectedGun.hasOwnProperty('MagsFilter')) {
+					const existingMagazineFilter = itemDB[selectedGun.id]._props.Slots.find((slot) => slot._name === "mod_magazine")._props.filters[0].Filter;
+					if (Array.isArray(existingMagazineFilter)) {
+						// Merge the IDs from the config into the existing filter array
+						selectedGun.MagsFilter.forEach((id) => {
+							existingMagazineFilter.push(id);
+							gunUpdated = true;
+						});
+						logger.info("[WeaponsAndAttachmentsCustomizer] updated specific gun with id " + selectedGun.id);
+					}
+				}
+				if (selectedGun.hasOwnProperty('ChamberFilter')) {
+					const existingChamberFilter = itemDB[selectedGun.id]._props.Chambers[0]._props.filters[0].Filter;
+					if (Array.isArray(existingChamberFilter)) {
+						// Merge the IDs from the config into the existing filter array
+						selectedGun.ChamberFilter.forEach((id) => {
+							existingChamberFilter.push(id);
+							gunUpdated = true;
+						});
+						logger.info("[WeaponsAndAttachmentsCustomizer] updated specific gun with id " + selectedGun.id);
+					}
+				}
+				if (gunUpdated) {
+					gunMagFiltersUpdated++;
+				}
+			} catch (err) {
+				logger.info("[WeaponsAndAttachmentsCustomizer] failed to update specific gun with id " + this.gunsConfig.Guns[gun].id);
+				continue;
+			}
+		}
 		// do specific guns config
 		for (let weaponGroup in this.specificGunsConfig) {
 			for (let gun in this.specificGunsConfig[weaponGroup]) {
@@ -472,6 +535,16 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 		}
 		
 		logger.info("[WeaponsAndAttachmentsCustomizer] MusicManiac - WeaponsAndAttachmentsCustomizer Loaded:");
+		if (magsUpdated === 0) {
+			logger.info("[WeaponsAndAttachmentsCustomizer] specificMagsConfig.json is not touched or no mags were updated");
+		} else {
+			logger.info("[WeaponsAndAttachmentsCustomizer] " + magsUpdated + " mags had their values adjusted");
+		}
+		if (gunMagFiltersUpdated === 0) {
+			logger.info("[WeaponsAndAttachmentsCustomizer] specificMagsConfig.json is not touched or no guns were updated");
+		} else {
+			logger.info("[WeaponsAndAttachmentsCustomizer] " + gunMagFiltersUpdated + " guns had their mags adjusted");
+		}
 		if (meleeUpdates === 0) {
 			logger.info("[WeaponsAndAttachmentsCustomizer] meleeConfig.json is not touched or no knifes were updated");
 		} else {
