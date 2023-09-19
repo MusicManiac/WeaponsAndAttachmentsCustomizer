@@ -13,6 +13,7 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 	private specificGunsConfig = require("../config/specificGunsConfig.json");
 	private meleeConfig = require("../config/meleeConfig.json");
 	private magsConfig = require("../config/specificMagsConfig.json");
+	private generalGrenadesConfig = require("../config/generalGrenadesConfig.json");
 
 	public adjustMultiplier(initial, multiplier)
 	{
@@ -139,7 +140,7 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 			this.scopesConfig.ergonomicsSection.useMinimumErgonomicsValue
 		].filter(Boolean).length;
 		
-		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0, meleeUpdates = 0, magsUpdated = 0, gunMagFiltersUpdated = 0;
+		let gunsErgonomicsUpdates = 0, gunsVerticalRecoilUpdates = 0, gunsHorizontalRecoilUpdates = 0, gunsCameraSnapUpdates = 0, gunsCameraRecoilUpdates = 0, gunsDurabilityBurnUpdates = 0, gunsFirerateUpdates = 0, gunsFiremodeChanges = 0, silencerRecoilUpdates = 0, silencerLoudnessUpdates = 0, silencerErgonomicsUpdates = 0, silencerVelocityUpdates = 0, silencerAccuracyUpdates = 0, silencerDurabilityBurnUpdates = 0, silencerHeatUpdates = 0, silencerCoolingUpdates = 0, scopeErgonomicsUpdates = 0, specificGunsUpdates = 0, meleeUpdates = 0, magsUpdated = 0, gunMagFiltersUpdated = 0, grenadesUpdated = 0, underbarrelGrenadesUpdated = 0;
 		// do specific mags config
 		for (let mags in this.magsConfig.Mags) {
 			try {
@@ -264,6 +265,52 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 		}
 		// do configs
 		for (let item in itemDB) {
+			// if it's a nade
+			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.THROW_WEAPON)) {
+				try {
+					let updatedGrenade = false;
+					if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
+						itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.HandGrenades.FragmentsCountMultiplier;
+						itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
+						updatedGrenade = true;
+					}
+					if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
+						itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MaxExplosionDistanceMultiplier;
+						updatedGrenade = true;
+					}
+					if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
+						itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MinExplosionDistanceMultiplier;
+						updatedGrenade = true;
+					}
+					if (updatedGrenade) { grenadesUpdated++; }
+				} catch (err) {
+					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update throwable with id " + itemDB[item]._id);
+					continue;
+				}
+			}
+			// if its underbarrel nade
+			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.AMMO) && (itemDB[item]._props.Caliber == "Caliber40mmRU" || itemDB[item]._props.Caliber == "Caliber40x46")) {
+				try {
+					let updatedGrenade = false;
+					if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
+						itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.UnderbarrelGrenades.FragmentsCountMultiplier;
+						itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
+						updatedGrenade = true;
+					}
+					if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
+						itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MaxExplosionDistanceMultiplier;
+						updatedGrenade = true;
+					}
+					if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
+						itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MinExplosionDistanceMultiplier;
+						updatedGrenade = true;
+					}
+					if (updatedGrenade) { underbarrelGrenadesUpdated++; }
+				} catch (err) {
+					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update underbarrel grenade with id " + itemDB[item]._id);
+					continue;
+				}
+			}
 			// if it's a knife
 			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.KNIFE)) {
 				try {

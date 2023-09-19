@@ -1,0 +1,13 @@
+{
+	"HandGrenades": {
+		"FragmentsCountMultiplier": 1,
+		"MaxExplosionDistanceMultiplier": 1,
+		"MinExplosionDistanceMultiplier": 1
+	},
+	"UnderbarrelGrenades": {
+		"FragmentsCountMultiplier": 1,
+		"MaxExplosionDistanceMultiplier": 1,
+		"MinExplosionDistanceMultiplier": 1
+	}
+	
+}
