@@ -11,7 +11,7 @@
 
 	"ergonomicsSection": {
 		"useErgonomicsMultiplier": true,
-		"ergonomicsMultiplier": 1.01,
+		"ergonomicsMultiplier": 1.02,
 
 		"useErgonomicsAbsoluteValue": false,
 		"ergonomicsAbsoluteValue": 90,
@@ -22,7 +22,7 @@
 
 	"verticalRecoilSection" : {
 		"useVerticalRecoilMultiplier": false,
-		"verticalRecoilMultiplier": 1.0,
+		"verticalRecoilMultiplier": 0.99,
 
 		"useVerticalRecoilAbsoluteValue": false,
 		"verticalRecoilAbsoluteValue": 100,
@@ -33,7 +33,7 @@
 
 	"horizontalRecoilSection" : {
 		"useHorizontalRecoilMultiplier": false,
-		"horizontalRecoilMultiplier": 1.0,
+		"horizontalRecoilMultiplier": 0.99,
 
 		"useHorizontalRecoilAbsoluteValue": false,
 		"horizontalRecoilAbsoluteValue": 100,

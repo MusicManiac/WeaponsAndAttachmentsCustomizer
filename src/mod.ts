@@ -506,15 +506,15 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 					// Accuracy
 					if (updateSilencersAccuracy === 1 && itemDB[item]._props.hasOwnProperty("Accuracy")) {
 						if (this.silencersConfig.accuracySection.useAccuracyMultiplier) {
-							if (itemDB[item]._props.Velocity > 0) {
-								itemDB[item]._props.Velocity *= this.silencersConfig.accuracySection.accuracyMultiplierForPositiveBaseAccuracy;
+							if (itemDB[item]._props.Accuracy > 0) {
+								itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForPositiveBaseAccuracy;
 							} else {
-								itemDB[item]._props.Velocity *= this.silencersConfig.accuracySection.accuracyMultiplierForNegativeBaseAccuracy;
+								itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForNegativeBaseAccuracy;
 							}
 						} else if (this.silencersConfig.accuracySection.useAccuracyAbsoluteValue) {
-							itemDB[item]._props.Velocity = this.silencersConfig.accuracySection.accuracyAbsoluteValue;
-						} else if (itemDB[item]._props.Velocity < this.silencersConfig.accuracySection.minimumAccuracyValue) {
-							itemDB[item]._props.Velocity = this.silencersConfig.accuracySection.minimumAccuracyValue;
+							itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.accuracyAbsoluteValue;
+						} else if (itemDB[item]._props.Accuracy < this.silencersConfig.accuracySection.minimumAccuracyValue) {
+							itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.minimumAccuracyValue;
 						}
 						silencerAccuracyUpdates++;
 					}
