@@ -266,317 +266,319 @@ class WeaponsAndAttachmentsCustomizer implements IPostDBLoadMod
 		// do configs
 		for (let item in itemDB) {
 			// if it's a nade
-			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.THROW_WEAPON)) {
-				try {
-					let updatedGrenade = false;
-					if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
-						itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.HandGrenades.FragmentsCountMultiplier;
-						itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
-						updatedGrenade = true;
+			if (itemDB[item]._type != "Node") {
+				if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.THROW_WEAPON)) {
+					try {
+						let updatedGrenade = false;
+						if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
+							itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.HandGrenades.FragmentsCountMultiplier;
+							itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
+							updatedGrenade = true;
+						}
+						if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
+							itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MaxExplosionDistanceMultiplier;
+							updatedGrenade = true;
+						}
+						if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
+							itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MinExplosionDistanceMultiplier;
+							updatedGrenade = true;
+						}
+						if (updatedGrenade) { grenadesUpdated++; }
+					} catch (err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update throwable with id " + itemDB[item]._id);
+						continue;
 					}
-					if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
-						itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MaxExplosionDistanceMultiplier;
-						updatedGrenade = true;
-					}
-					if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
-						itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.HandGrenades.MinExplosionDistanceMultiplier;
-						updatedGrenade = true;
-					}
-					if (updatedGrenade) { grenadesUpdated++; }
-				} catch (err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update throwable with id " + itemDB[item]._id);
-					continue;
 				}
-			}
-			// if its underbarrel nade
-			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.AMMO) && (itemDB[item]._props.Caliber == "Caliber40mmRU" || itemDB[item]._props.Caliber == "Caliber40x46")) {
-				try {
-					let updatedGrenade = false;
-					if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
-						itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.UnderbarrelGrenades.FragmentsCountMultiplier;
-						itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
-						updatedGrenade = true;
+				// if its underbarrel nade
+				if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.AMMO) && (itemDB[item]._props.Caliber == "Caliber40mmRU" || itemDB[item]._props.Caliber == "Caliber40x46")) {
+					try {
+						let updatedGrenade = false;
+						if (itemDB[item]._props.hasOwnProperty("FragmentsCount")) {
+							itemDB[item]._props.FragmentsCount *= this.generalGrenadesConfig.UnderbarrelGrenades.FragmentsCountMultiplier;
+							itemDB[item]._props.FragmentsCount = Math.round(itemDB[item]._props.FragmentsCount);
+							updatedGrenade = true;
+						}
+						if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
+							itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MaxExplosionDistanceMultiplier;
+							updatedGrenade = true;
+						}
+						if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
+							itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MinExplosionDistanceMultiplier;
+							updatedGrenade = true;
+						}
+						if (updatedGrenade) { underbarrelGrenadesUpdated++; }
+					} catch (err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update underbarrel grenade with id " + itemDB[item]._id);
+						continue;
 					}
-					if (itemDB[item]._props.hasOwnProperty("MaxExplosionDistance")) {
-						itemDB[item]._props.MaxExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MaxExplosionDistanceMultiplier;
-						updatedGrenade = true;
-					}
-					if (itemDB[item]._props.hasOwnProperty("MinExplosionDistance")) {
-						itemDB[item]._props.MinExplosionDistance *= this.generalGrenadesConfig.UnderbarrelGrenades.MinExplosionDistanceMultiplier;
-						updatedGrenade = true;
-					}
-					if (updatedGrenade) { underbarrelGrenadesUpdated++; }
-				} catch (err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update underbarrel grenade with id " + itemDB[item]._id);
-					continue;
 				}
-			}
-			// if it's a knife
-			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.KNIFE)) {
-				try {
-					if (!(this.meleeConfig.excludeCultistKnife && itemDB[item]._id === "5fc64ea372b0dd78d51159dc") || !(this.meleeConfig.excludeTagillaHammer && itemDB[item]._id === "6087e570b998180e9f76dc24")) {
-						let updatedKnife = false;
-						// Slash Damage
-						if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
-							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.damageMultiplier;
-							updatedKnife = true;
+				// if it's a knife
+				if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.KNIFE)) {
+					try {
+						if (!(this.meleeConfig.excludeCultistKnife && itemDB[item]._id === "5fc64ea372b0dd78d51159dc") || !(this.meleeConfig.excludeTagillaHammer && itemDB[item]._id === "6087e570b998180e9f76dc24")) {
+							let updatedKnife = false;
+							// Slash Damage
+							if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
+								itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.damageMultiplier;
+								updatedKnife = true;
+							}
+							// Stab Damage
+							if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
+								itemDB[item]._props.knifeHitStabDam *= this.meleeConfig.damageMultiplier;
+								updatedKnife = true;
+							}
+							// Slash Penetration
+							if (itemDB[item]._props.hasOwnProperty("SlashPenetration")) {
+								itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.slashPenetrationMultiplier;
+								updatedKnife = true;
+							}
+							// Slash Penetration
+							if (itemDB[item]._props.hasOwnProperty("StabPenetration")) {
+								itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.stabPenetrationMultiplier;
+								updatedKnife = true;
+							}
+							if (updatedKnife) { meleeUpdates++; }
 						}
-						// Stab Damage
-						if (itemDB[item]._props.hasOwnProperty("knifeHitSlashDam")) {
-							itemDB[item]._props.knifeHitStabDam *= this.meleeConfig.damageMultiplier;
-							updatedKnife = true;
-						}
-						// Slash Penetration
-						if (itemDB[item]._props.hasOwnProperty("SlashPenetration")) {
-							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.slashPenetrationMultiplier;
-							updatedKnife = true;
-						}
-						// Slash Penetration
-						if (itemDB[item]._props.hasOwnProperty("StabPenetration")) {
-							itemDB[item]._props.knifeHitSlashDam *= this.meleeConfig.stabPenetrationMultiplier;
-							updatedKnife = true;
-						}
-						if (updatedKnife) { meleeUpdates++; }
+					} catch (err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update knife with id " + itemDB[item]._id);
+						continue;
 					}
-				} catch (err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update knife with id " + itemDB[item]._id);
-					continue;
 				}
-			}
-			// if it's firearm
-			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.WEAPON)) {
-				try {
-					// Ergonomics
-					if (updateGunsErgo === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
-						if (this.generalGunsConfig.ergonomicsSection.useErgonomicsMultiplier) {
-							itemDB[item]._props.Ergonomics *= this.generalGunsConfig.ergonomicsSection.ergonomicsMultiplier;
-						} else if (this.generalGunsConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
-							itemDB[item]._props.Ergonomics = this.generalGunsConfig.ergonomicsSection.ergonomicsAbsoluteValue;
-						} else if (itemDB[item]._props.Ergonomics < this.generalGunsConfig.ergonomicsSection.minimumErgonomicsValue) {
-							itemDB[item]._props.Ergonomics = this.generalGunsConfig.ergonomicsSection.minimumErgonomicsValue;
-						}
-						gunsErgonomicsUpdates++;
-					}
-					// Vertical Recoil
-					if (updateGunsVerticalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceUp")) {
-						if (this.generalGunsConfig.verticalRecoilSection.useVerticalRecoilMultiplier) {
-							itemDB[item]._props.RecoilForceUp *= this.generalGunsConfig.verticalRecoilSection.verticalRecoilMultiplier;
-						} else if (this.generalGunsConfig.verticalRecoilSection.useVerticalRecoilAbsoluteValue) {
-							itemDB[item]._props.RecoilForceUp = this.generalGunsConfig.verticalRecoilSection.verticalRecoilAbsoluteValue;
-						} else if (itemDB[item]._props.RecoilForceUp > this.generalGunsConfig.verticalRecoilSection.maximumVerticalRecoilValue) {
-							itemDB[item]._props.RecoilForceUp = this.generalGunsConfig.verticalRecoilSection.maximumVerticalRecoilValue;
-						}
-						gunsVerticalRecoilUpdates++;
-					}
-					// Horizontal Recoil
-					if (updateGunsHorizontalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceBack")) {
-						if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilMultiplier) {
-							itemDB[item]._props.RecoilForceBack *= this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilMultiplier;
-						} else if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilAbsoluteValue) {
-							itemDB[item]._props.RecoilForceBack = this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilAbsoluteValue;
-						} else if (itemDB[item]._props.RecoilForceBack > this.generalGunsConfig.horizontalRecoilSection.maximumHorizontalRecoilValue) {
-							itemDB[item]._props.RecoilForceBack = this.generalGunsConfig.horizontalRecoilSection.maximumHorizontalRecoilValue;
-						}
-						gunsHorizontalRecoilUpdates++;
-					}
-
-					// Camera Snap
-					if (updateGunsCameraSnap === 1 && itemDB[item]._props.hasOwnProperty("CameraSnap")) {
-						if (this.generalGunsConfig.cameraSnapSection.useCameraSnapMultiplier) {
-							itemDB[item]._props.CameraSnap *= this.generalGunsConfig.cameraSnapSection.cameraSnapMultiplier;
-						} else if (this.generalGunsConfig.cameraSnapSection.useCameraSnapAbsoluteValue) {
-							itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.cameraSnapAbsoluteValue;
-						} else if (itemDB[item]._props.CameraSnap < this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue) {
-							itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue;
-						}
-						gunsCameraSnapUpdates++;
-					}
-
-					// Camera Recoil
-					if (updateGunsCameraRecoil === 1 && itemDB[item]._props.hasOwnProperty("CameraRecoil")) {
-						if (this.generalGunsConfig.cameraRecoilSection.useCameraRecoilMultiplier) {
-							itemDB[item]._props.CameraRecoil *= this.generalGunsConfig.cameraRecoilSection.cameraRecoilMultiplier;
-						} else if (this.generalGunsConfig.cameraRecoilSection.useCameraRecoilAbsoluteValue) {
-							itemDB[item]._props.CameraRecoil = this.generalGunsConfig.cameraRecoilSection.cameraRecoilAbsoluteValue;
-						} else if (itemDB[item]._props.CameraRecoil > this.generalGunsConfig.cameraRecoilSection.maximumCameraRecoilValue) {
-							itemDB[item]._props.CameraRecoil = this.generalGunsConfig.cameraRecoilSection.maximumCameraRecoilValue;
-						}
-						gunsCameraRecoilUpdates++;
-					}
-
-					// Durability Burn
-					if (updateGunsDurabilityBurn === 1 && itemDB[item]._props.hasOwnProperty("DurabilityBurnRatio")) {
-						if (this.generalGunsConfig.durabilitySection.useDurabilityBurnMultiplier) {
-							itemDB[item]._props.DurabilityBurnRatio *= this.generalGunsConfig.durabilitySection.durabilityBurnMultiplier;
-						} else if (this.generalGunsConfig.durabilitySection.useDurabilityBurnAbsoluteValue) {
-							itemDB[item]._props.DurabilityBurnRatio = this.generalGunsConfig.durabilitySection.durabilityBurnAbsoluteValue;
-						} else if (itemDB[item]._props.DurabilityBurnRatio > this.generalGunsConfig.durabilitySection.maximumDurabilityBurnValue) {
-							itemDB[item]._props.DurabilityBurnRatio = this.generalGunsConfig.durabilitySection.maximumDurabilityBurnValue;
-						}
-						gunsDurabilityBurnUpdates++;
-					}
-
-					// Firerate
-					if (updateGunsFirerate === 1 && itemDB[item]._props.hasOwnProperty("bFirerate")) {
-						if (this.generalGunsConfig.firerateSection.useFirerateMultiplier) {
-							itemDB[item]._props.bFirerate *= this.generalGunsConfig.firerateSection.firerateMultiplier;
-						} else if (this.generalGunsConfig.firerateSection.useFirerateAbsoluteValue) {
-							itemDB[item]._props.bFirerate = this.generalGunsConfig.firerateSection.firerateAbsoluteValue;
-						} else if (itemDB[item]._props.bFirerate < this.generalGunsConfig.firerateSection.minimumFirerateValue) {
-							itemDB[item]._props.bFirerate = this.generalGunsConfig.firerateSection.minimumFirerateValue;
-						}
-						gunsFirerateUpdates++;
-					}
-
-					//Firemodes
-					if (updateGunsFiremodes !== 0 && itemDB[item]._props.hasOwnProperty("weapFireType")) {
-						if (this.generalGunsConfig.firemodeSection.addFullAuto) {
-							if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.addToSMG && !itemDB[item]._props.weapFireType.includes("fullauto")) {
-								itemDB[item]._props.weapFireType.push("fullauto");
-								gunsFiremodeChanges++;
+				// if it's firearm
+				if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.WEAPON)) {
+					try {
+						// Ergonomics
+						if (updateGunsErgo === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
+							if (this.generalGunsConfig.ergonomicsSection.useErgonomicsMultiplier) {
+								itemDB[item]._props.Ergonomics *= this.generalGunsConfig.ergonomicsSection.ergonomicsMultiplier;
+							} else if (this.generalGunsConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
+								itemDB[item]._props.Ergonomics = this.generalGunsConfig.ergonomicsSection.ergonomicsAbsoluteValue;
+							} else if (itemDB[item]._props.Ergonomics < this.generalGunsConfig.ergonomicsSection.minimumErgonomicsValue) {
+								itemDB[item]._props.Ergonomics = this.generalGunsConfig.ergonomicsSection.minimumErgonomicsValue;
 							}
+							gunsErgonomicsUpdates++;
 						}
-						if (this.generalGunsConfig.firemodeSection.removeBurst) {
-							if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.removeFromSMG && itemDB[item]._props.weapFireType.includes("burst")) {
-								itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
-								gunsFiremodeChanges++;
+						// Vertical Recoil
+						if (updateGunsVerticalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceUp")) {
+							if (this.generalGunsConfig.verticalRecoilSection.useVerticalRecoilMultiplier) {
+								itemDB[item]._props.RecoilForceUp *= this.generalGunsConfig.verticalRecoilSection.verticalRecoilMultiplier;
+							} else if (this.generalGunsConfig.verticalRecoilSection.useVerticalRecoilAbsoluteValue) {
+								itemDB[item]._props.RecoilForceUp = this.generalGunsConfig.verticalRecoilSection.verticalRecoilAbsoluteValue;
+							} else if (itemDB[item]._props.RecoilForceUp > this.generalGunsConfig.verticalRecoilSection.maximumVerticalRecoilValue) {
+								itemDB[item]._props.RecoilForceUp = this.generalGunsConfig.verticalRecoilSection.maximumVerticalRecoilValue;
 							}
-							if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.ASSAULT_RIFLE) && this.generalGunsConfig.firemodeSection.removeFromAssaultRifles && itemDB[item]._props.weapFireType.includes("burst")) {
-								itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
-								gunsFiremodeChanges++;
+							gunsVerticalRecoilUpdates++;
+						}
+						// Horizontal Recoil
+						if (updateGunsHorizontalRecoil === 1 && itemDB[item]._props.hasOwnProperty("RecoilForceBack")) {
+							if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilMultiplier) {
+								itemDB[item]._props.RecoilForceBack *= this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilMultiplier;
+							} else if (this.generalGunsConfig.horizontalRecoilSection.useHorizontalRecoilAbsoluteValue) {
+								itemDB[item]._props.RecoilForceBack = this.generalGunsConfig.horizontalRecoilSection.horizontalRecoilAbsoluteValue;
+							} else if (itemDB[item]._props.RecoilForceBack > this.generalGunsConfig.horizontalRecoilSection.maximumHorizontalRecoilValue) {
+								itemDB[item]._props.RecoilForceBack = this.generalGunsConfig.horizontalRecoilSection.maximumHorizontalRecoilValue;
 							}
-						}						
+							gunsHorizontalRecoilUpdates++;
+						}
+	
+						// Camera Snap
+						if (updateGunsCameraSnap === 1 && itemDB[item]._props.hasOwnProperty("CameraSnap")) {
+							if (this.generalGunsConfig.cameraSnapSection.useCameraSnapMultiplier) {
+								itemDB[item]._props.CameraSnap *= this.generalGunsConfig.cameraSnapSection.cameraSnapMultiplier;
+							} else if (this.generalGunsConfig.cameraSnapSection.useCameraSnapAbsoluteValue) {
+								itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.cameraSnapAbsoluteValue;
+							} else if (itemDB[item]._props.CameraSnap < this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue) {
+								itemDB[item]._props.CameraSnap = this.generalGunsConfig.cameraSnapSection.minimumCameraSnapValue;
+							}
+							gunsCameraSnapUpdates++;
+						}
+	
+						// Camera Recoil
+						if (updateGunsCameraRecoil === 1 && itemDB[item]._props.hasOwnProperty("CameraRecoil")) {
+							if (this.generalGunsConfig.cameraRecoilSection.useCameraRecoilMultiplier) {
+								itemDB[item]._props.CameraRecoil *= this.generalGunsConfig.cameraRecoilSection.cameraRecoilMultiplier;
+							} else if (this.generalGunsConfig.cameraRecoilSection.useCameraRecoilAbsoluteValue) {
+								itemDB[item]._props.CameraRecoil = this.generalGunsConfig.cameraRecoilSection.cameraRecoilAbsoluteValue;
+							} else if (itemDB[item]._props.CameraRecoil > this.generalGunsConfig.cameraRecoilSection.maximumCameraRecoilValue) {
+								itemDB[item]._props.CameraRecoil = this.generalGunsConfig.cameraRecoilSection.maximumCameraRecoilValue;
+							}
+							gunsCameraRecoilUpdates++;
+						}
+	
+						// Durability Burn
+						if (updateGunsDurabilityBurn === 1 && itemDB[item]._props.hasOwnProperty("DurabilityBurnRatio")) {
+							if (this.generalGunsConfig.durabilitySection.useDurabilityBurnMultiplier) {
+								itemDB[item]._props.DurabilityBurnRatio *= this.generalGunsConfig.durabilitySection.durabilityBurnMultiplier;
+							} else if (this.generalGunsConfig.durabilitySection.useDurabilityBurnAbsoluteValue) {
+								itemDB[item]._props.DurabilityBurnRatio = this.generalGunsConfig.durabilitySection.durabilityBurnAbsoluteValue;
+							} else if (itemDB[item]._props.DurabilityBurnRatio > this.generalGunsConfig.durabilitySection.maximumDurabilityBurnValue) {
+								itemDB[item]._props.DurabilityBurnRatio = this.generalGunsConfig.durabilitySection.maximumDurabilityBurnValue;
+							}
+							gunsDurabilityBurnUpdates++;
+						}
+	
+						// Firerate
+						if (updateGunsFirerate === 1 && itemDB[item]._props.hasOwnProperty("bFirerate")) {
+							if (this.generalGunsConfig.firerateSection.useFirerateMultiplier) {
+								itemDB[item]._props.bFirerate *= this.generalGunsConfig.firerateSection.firerateMultiplier;
+							} else if (this.generalGunsConfig.firerateSection.useFirerateAbsoluteValue) {
+								itemDB[item]._props.bFirerate = this.generalGunsConfig.firerateSection.firerateAbsoluteValue;
+							} else if (itemDB[item]._props.bFirerate < this.generalGunsConfig.firerateSection.minimumFirerateValue) {
+								itemDB[item]._props.bFirerate = this.generalGunsConfig.firerateSection.minimumFirerateValue;
+							}
+							gunsFirerateUpdates++;
+						}
+	
+						//Firemodes
+						if (updateGunsFiremodes !== 0 && itemDB[item]._props.hasOwnProperty("weapFireType")) {
+							if (this.generalGunsConfig.firemodeSection.addFullAuto) {
+								if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.addToSMG && !itemDB[item]._props.weapFireType.includes("fullauto")) {
+									itemDB[item]._props.weapFireType.push("fullauto");
+									gunsFiremodeChanges++;
+								}
+							}
+							if (this.generalGunsConfig.firemodeSection.removeBurst) {
+								if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SMG) && this.generalGunsConfig.firemodeSection.removeFromSMG && itemDB[item]._props.weapFireType.includes("burst")) {
+									itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
+									gunsFiremodeChanges++;
+								}
+								if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.ASSAULT_RIFLE) && this.generalGunsConfig.firemodeSection.removeFromAssaultRifles && itemDB[item]._props.weapFireType.includes("burst")) {
+									itemDB[item]._props.weapFireType = itemDB[item]._props.weapFireType.filter((str) => str !== "burst");
+									gunsFiremodeChanges++;
+								}
+							}						
+						}
+					} catch(err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update weapon with id " + itemDB[item]._id);
+						continue;
 					}
-				} catch(err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update weapon with id " + itemDB[item]._id);
-					continue;
 				}
-			}
-			// if it's a silencer
-			if (itemDB[item]._parent === "550aa4cd4bdc2dd8348b456c") {
-				try {
-					// Recoil
-					if (updateSilencersRecoil === 1 && itemDB[item]._props.hasOwnProperty("Recoil")) {
-						if (this.silencersConfig.recoilSection.useRecoilMultiplier) {
-							itemDB[item]._props.Recoil *= this.silencersConfig.recoilSection.recoilMultiplier;
-						} else if (this.silencersConfig.recoilSection.useRecoilAbsoluteValue) {
-							itemDB[item]._props.Recoil = this.silencersConfig.recoilSection.recoilAbsoluteValue;
-						} else if (itemDB[item]._props.Recoil > this.silencersConfig.recoilSection.maximumRecoilValue) {
-							itemDB[item]._props.Recoil = this.silencersConfig.recoilSection.maximumRecoilValue;
-						}
-						silencerRecoilUpdates++;
-					}
-					// Loudness
-					if (updateSilencersLoudness === 1 && itemDB[item]._props.hasOwnProperty("Loudness")) {
-						if (this.silencersConfig.loudnessSection.useLoundnessMultiplier) {
-							itemDB[item]._props.Loudness *= this.silencersConfig.loudnessSection.loundnessMultiplier;
-						} else if (this.silencersConfig.loudnessSection.useLoundnessAbsoluteValue) {
-							itemDB[item]._props.Loudness = this.silencersConfig.loudnessSection.loundnessAbsoluteValue;
-						} else if (itemDB[item]._props.Loudness > this.silencersConfig.loudnessSection.maximumLoundnessValue) {
-							itemDB[item]._props.Loudness = this.silencersConfig.loudnessSection.maximumLoundnessValue;
-						}
-						silencerLoudnessUpdates++;
-					}
-					// Ergonomics
-					if (updateSilencersErgonomics === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
-						if (this.silencersConfig.ergonomicsSection.useErgonomicsMultiplier) {
-							itemDB[item]._props.Ergonomics *= this.silencersConfig.ergonomicsSection.ergonomicsMultiplier;
-						} else if (this.silencersConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
-							itemDB[item]._props.Ergonomics = this.silencersConfig.ergonomicsSection.ergonomicsAbsoluteValue;
-						} else if (itemDB[item]._props.Ergonomics < this.silencersConfig.ergonomicsSection.minimumErgonomicsValue) {
-							itemDB[item]._props.Ergonomics = this.silencersConfig.ergonomicsSection.minimumErgonomicsValue;
-						}
-						silencerErgonomicsUpdates++;
-					}
-					// Muzzle velocity
-					if (updateSilencersVelocity === 1 && itemDB[item]._props.hasOwnProperty("Velocity")) {
-						if (this.silencersConfig.velocitySection.useVelocityMultiplier) {
-							if (itemDB[item]._props.Velocity > 0) {
-								itemDB[item]._props.Velocity *= this.silencersConfig.velocitySection.velocityMultiplierForPositiveBaseVelocity;
-							} else {
-								itemDB[item]._props.Velocity *= this.silencersConfig.velocitySection.velocityMultiplierForNegativeBaseVelocity;
+				// if it's a silencer
+				if (itemDB[item]._parent === "550aa4cd4bdc2dd8348b456c") {
+					try {
+						// Recoil
+						if (updateSilencersRecoil === 1 && itemDB[item]._props.hasOwnProperty("Recoil")) {
+							if (this.silencersConfig.recoilSection.useRecoilMultiplier) {
+								itemDB[item]._props.Recoil *= this.silencersConfig.recoilSection.recoilMultiplier;
+							} else if (this.silencersConfig.recoilSection.useRecoilAbsoluteValue) {
+								itemDB[item]._props.Recoil = this.silencersConfig.recoilSection.recoilAbsoluteValue;
+							} else if (itemDB[item]._props.Recoil > this.silencersConfig.recoilSection.maximumRecoilValue) {
+								itemDB[item]._props.Recoil = this.silencersConfig.recoilSection.maximumRecoilValue;
 							}
-						} else if (this.silencersConfig.velocitySection.useVelocityAbsoluteValue) {
-							itemDB[item]._props.Velocity = this.silencersConfig.velocitySection.velocityAbsoluteValue;
-						} else if (itemDB[item]._props.Velocity < this.silencersConfig.velocitySection.minimumVelocityValue) {
-							itemDB[item]._props.Velocity = this.silencersConfig.velocitySection.minimumVelocityValue;
+							silencerRecoilUpdates++;
 						}
-						silencerVelocityUpdates++;
-					}
-					// Accuracy
-					if (updateSilencersAccuracy === 1 && itemDB[item]._props.hasOwnProperty("Accuracy")) {
-						if (this.silencersConfig.accuracySection.useAccuracyMultiplier) {
-							if (itemDB[item]._props.Accuracy > 0) {
-								itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForPositiveBaseAccuracy;
-							} else {
-								itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForNegativeBaseAccuracy;
+						// Loudness
+						if (updateSilencersLoudness === 1 && itemDB[item]._props.hasOwnProperty("Loudness")) {
+							if (this.silencersConfig.loudnessSection.useLoundnessMultiplier) {
+								itemDB[item]._props.Loudness *= this.silencersConfig.loudnessSection.loundnessMultiplier;
+							} else if (this.silencersConfig.loudnessSection.useLoundnessAbsoluteValue) {
+								itemDB[item]._props.Loudness = this.silencersConfig.loudnessSection.loundnessAbsoluteValue;
+							} else if (itemDB[item]._props.Loudness > this.silencersConfig.loudnessSection.maximumLoundnessValue) {
+								itemDB[item]._props.Loudness = this.silencersConfig.loudnessSection.maximumLoundnessValue;
 							}
-						} else if (this.silencersConfig.accuracySection.useAccuracyAbsoluteValue) {
-							itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.accuracyAbsoluteValue;
-						} else if (itemDB[item]._props.Accuracy < this.silencersConfig.accuracySection.minimumAccuracyValue) {
-							itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.minimumAccuracyValue;
+							silencerLoudnessUpdates++;
 						}
-						silencerAccuracyUpdates++;
-					}
-					// Durability Burn
-					if (updateSilencersDurabilityBurn === 1 && itemDB[item]._props.hasOwnProperty("DurabilityBurnModificator")) {
-						if (this.silencersConfig.durabilityBurnSection.useDurabilityMultiplier) {
-							itemDB[item]._props.DurabilityBurnModificator = this.adjustMultiplier(itemDB[item]._props.DurabilityBurnModificator, this.silencersConfig.durabilityBurnSection.durabilityBurnMultiplier);
-						} else if (this.silencersConfig.durabilityBurnSection.useDurabilityAbsoluteValue) {
-							itemDB[item]._props.DurabilityBurnModificator = this.silencersConfig.durabilityBurnSection.durabilityBurnAbsoluteValue;
-						} else if (itemDB[item]._props.DurabilityBurnModificator < this.silencersConfig.durabilityBurnSection.maximumDurabilityBurnValue) {
-							itemDB[item]._props.DurabilityBurnModificator = this.silencersConfig.durabilityBurnSection.maximumDurabilityBurnValue;
+						// Ergonomics
+						if (updateSilencersErgonomics === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
+							if (this.silencersConfig.ergonomicsSection.useErgonomicsMultiplier) {
+								itemDB[item]._props.Ergonomics *= this.silencersConfig.ergonomicsSection.ergonomicsMultiplier;
+							} else if (this.silencersConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
+								itemDB[item]._props.Ergonomics = this.silencersConfig.ergonomicsSection.ergonomicsAbsoluteValue;
+							} else if (itemDB[item]._props.Ergonomics < this.silencersConfig.ergonomicsSection.minimumErgonomicsValue) {
+								itemDB[item]._props.Ergonomics = this.silencersConfig.ergonomicsSection.minimumErgonomicsValue;
+							}
+							silencerErgonomicsUpdates++;
 						}
-						silencerDurabilityBurnUpdates++;
-					}
-					// Heat
-					if (updateSilencersHeat === 1 && itemDB[item]._props.hasOwnProperty("HeatFactor")) {
-						if (this.silencersConfig.heatSection.useHeatMultiplier) {
-							itemDB[item]._props.HeatFactor = this.adjustMultiplier(itemDB[item]._props.HeatFactor, this.silencersConfig.heatSection.heatMultiplier);
-						} else if (this.silencersConfig.heatSection.useHeatAbsoluteValue) {
-							itemDB[item]._props.HeatFactor = this.silencersConfig.heatSection.heatAbsoluteValue;
-						} else if (itemDB[item]._props.HeatFactor < this.silencersConfig.heatSection.maximumHeatValue) {
-							itemDB[item]._props.HeatFactor = this.silencersConfig.heatSection.maximumHeatValue;
+						// Muzzle velocity
+						if (updateSilencersVelocity === 1 && itemDB[item]._props.hasOwnProperty("Velocity")) {
+							if (this.silencersConfig.velocitySection.useVelocityMultiplier) {
+								if (itemDB[item]._props.Velocity > 0) {
+									itemDB[item]._props.Velocity *= this.silencersConfig.velocitySection.velocityMultiplierForPositiveBaseVelocity;
+								} else {
+									itemDB[item]._props.Velocity *= this.silencersConfig.velocitySection.velocityMultiplierForNegativeBaseVelocity;
+								}
+							} else if (this.silencersConfig.velocitySection.useVelocityAbsoluteValue) {
+								itemDB[item]._props.Velocity = this.silencersConfig.velocitySection.velocityAbsoluteValue;
+							} else if (itemDB[item]._props.Velocity < this.silencersConfig.velocitySection.minimumVelocityValue) {
+								itemDB[item]._props.Velocity = this.silencersConfig.velocitySection.minimumVelocityValue;
+							}
+							silencerVelocityUpdates++;
 						}
-						silencerHeatUpdates++;
-					}
-					// Cooling
-					if (updateSilencersCooling === 1 && itemDB[item]._props.hasOwnProperty("CoolFactor")) {
-						if (this.silencersConfig.coolingSection.useCoolingMultiplier) {
-							itemDB[item]._props.CoolFactor = this.adjustMultiplier(itemDB[item]._props.CoolFactor, this.silencersConfig.coolingSection.coolingMultiplier);
-						} else if (this.silencersConfig.coolingSection.useCoolingAbsoluteValue) {
-							itemDB[item]._props.CoolFactor = this.silencersConfig.coolingSection.coolingAbsoluteValue;
-						} else if (itemDB[item]._props.CoolFactor < this.silencersConfig.coolingSection.minimumCoolingValue) {
-							itemDB[item]._props.CoolFactor = this.silencersConfig.coolingSection.minimumCoolingValue;
+						// Accuracy
+						if (updateSilencersAccuracy === 1 && itemDB[item]._props.hasOwnProperty("Accuracy")) {
+							if (this.silencersConfig.accuracySection.useAccuracyMultiplier) {
+								if (itemDB[item]._props.Accuracy > 0) {
+									itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForPositiveBaseAccuracy;
+								} else {
+									itemDB[item]._props.Accuracy *= this.silencersConfig.accuracySection.accuracyMultiplierForNegativeBaseAccuracy;
+								}
+							} else if (this.silencersConfig.accuracySection.useAccuracyAbsoluteValue) {
+								itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.accuracyAbsoluteValue;
+							} else if (itemDB[item]._props.Accuracy < this.silencersConfig.accuracySection.minimumAccuracyValue) {
+								itemDB[item]._props.Accuracy = this.silencersConfig.accuracySection.minimumAccuracyValue;
+							}
+							silencerAccuracyUpdates++;
 						}
-						silencerCoolingUpdates++;
+						// Durability Burn
+						if (updateSilencersDurabilityBurn === 1 && itemDB[item]._props.hasOwnProperty("DurabilityBurnModificator")) {
+							if (this.silencersConfig.durabilityBurnSection.useDurabilityMultiplier) {
+								itemDB[item]._props.DurabilityBurnModificator = this.adjustMultiplier(itemDB[item]._props.DurabilityBurnModificator, this.silencersConfig.durabilityBurnSection.durabilityBurnMultiplier);
+							} else if (this.silencersConfig.durabilityBurnSection.useDurabilityAbsoluteValue) {
+								itemDB[item]._props.DurabilityBurnModificator = this.silencersConfig.durabilityBurnSection.durabilityBurnAbsoluteValue;
+							} else if (itemDB[item]._props.DurabilityBurnModificator < this.silencersConfig.durabilityBurnSection.maximumDurabilityBurnValue) {
+								itemDB[item]._props.DurabilityBurnModificator = this.silencersConfig.durabilityBurnSection.maximumDurabilityBurnValue;
+							}
+							silencerDurabilityBurnUpdates++;
+						}
+						// Heat
+						if (updateSilencersHeat === 1 && itemDB[item]._props.hasOwnProperty("HeatFactor")) {
+							if (this.silencersConfig.heatSection.useHeatMultiplier) {
+								itemDB[item]._props.HeatFactor = this.adjustMultiplier(itemDB[item]._props.HeatFactor, this.silencersConfig.heatSection.heatMultiplier);
+							} else if (this.silencersConfig.heatSection.useHeatAbsoluteValue) {
+								itemDB[item]._props.HeatFactor = this.silencersConfig.heatSection.heatAbsoluteValue;
+							} else if (itemDB[item]._props.HeatFactor < this.silencersConfig.heatSection.maximumHeatValue) {
+								itemDB[item]._props.HeatFactor = this.silencersConfig.heatSection.maximumHeatValue;
+							}
+							silencerHeatUpdates++;
+						}
+						// Cooling
+						if (updateSilencersCooling === 1 && itemDB[item]._props.hasOwnProperty("CoolFactor")) {
+							if (this.silencersConfig.coolingSection.useCoolingMultiplier) {
+								itemDB[item]._props.CoolFactor = this.adjustMultiplier(itemDB[item]._props.CoolFactor, this.silencersConfig.coolingSection.coolingMultiplier);
+							} else if (this.silencersConfig.coolingSection.useCoolingAbsoluteValue) {
+								itemDB[item]._props.CoolFactor = this.silencersConfig.coolingSection.coolingAbsoluteValue;
+							} else if (itemDB[item]._props.CoolFactor < this.silencersConfig.coolingSection.minimumCoolingValue) {
+								itemDB[item]._props.CoolFactor = this.silencersConfig.coolingSection.minimumCoolingValue;
+							}
+							silencerCoolingUpdates++;
+						}
+					} catch(err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update silencer with id " + itemDB[item]._id);
+						continue;
 					}
-				} catch(err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update silencer with id " + itemDB[item]._id);
-					continue;
 				}
-			}
-			// if it's a sight
-			if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SIGHTS)) {
-				try {
-					// Ergonomics
-					if (updateScopesErgonomics === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
-						if (this.scopesConfig.ergonomicsSection.useErgonomicsMultiplier) {
-							if (itemDB[item]._props.Ergonomics > 0) {
-								itemDB[item]._props.Ergonomics *= this.scopesConfig.ergonomicsSection.ergonomicsMultiplierForPositiveBaseErgonomics;
-							} else {
-								itemDB[item]._props.Ergonomics *= this.scopesConfig.ergonomicsSection.ergonomicsMultiplierForNegativeBaseErgonomics;
+				// if it's a sight
+				if (itemHelper.isOfBaseclass(itemDB[item]._id, BaseClasses.SIGHTS)) {
+					try {
+						// Ergonomics
+						if (updateScopesErgonomics === 1 && itemDB[item]._props.hasOwnProperty("Ergonomics")) {
+							if (this.scopesConfig.ergonomicsSection.useErgonomicsMultiplier) {
+								if (itemDB[item]._props.Ergonomics > 0) {
+									itemDB[item]._props.Ergonomics *= this.scopesConfig.ergonomicsSection.ergonomicsMultiplierForPositiveBaseErgonomics;
+								} else {
+									itemDB[item]._props.Ergonomics *= this.scopesConfig.ergonomicsSection.ergonomicsMultiplierForNegativeBaseErgonomics;
+								}
+							} else if (this.scopesConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
+								itemDB[item]._props.Ergonomics = this.scopesConfig.ergonomicsSection.ergonomicsAbsoluteValue;
+							} else if (itemDB[item]._props.Ergonomics < this.scopesConfig.ergonomicsSection.minimumErgonomicsValue) {
+								itemDB[item]._props.Ergonomics = this.scopesConfig.ergonomicsSection.minimumErgonomicsValue;
 							}
-						} else if (this.scopesConfig.ergonomicsSection.useErgonomicsAbsoluteValue) {
-							itemDB[item]._props.Ergonomics = this.scopesConfig.ergonomicsSection.ergonomicsAbsoluteValue;
-						} else if (itemDB[item]._props.Ergonomics < this.scopesConfig.ergonomicsSection.minimumErgonomicsValue) {
-							itemDB[item]._props.Ergonomics = this.scopesConfig.ergonomicsSection.minimumErgonomicsValue;
+							scopeErgonomicsUpdates++;
 						}
-						scopeErgonomicsUpdates++;
+					} catch(err) {
+						logger.info("[WeaponsAndAttachmentsCustomizer] failed to update sight with id " + itemDB[item]._id);
+						continue;
 					}
-				} catch(err) {
-					logger.info("[WeaponsAndAttachmentsCustomizer] failed to update sight with id " + itemDB[item]._id);
-					continue;
 				}
 			}
 		}
