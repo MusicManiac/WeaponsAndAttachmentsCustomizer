@@ -2,9 +2,9 @@
 	"m4 group": {
 		"ADAR 2-15 5.56x45 carbine" :{
 			"id": "5c07c60e0db834002330051f",
-			"ergonomicsMultiplier": 1.02,
+			"ergonomicsMultiplier": 1.03,
 			"ergonomicsAbsolute": -1,
-			"verticalRecoilMultiplier": 0.98,
+			"verticalRecoilMultiplier": 0.97,
 			"verticalRecoilAbsolute": -1,
 			"horizontalRecoilMultiplier": 1,
 			"horizontalRecoilAbsolute": -1,
@@ -15,9 +15,9 @@
 		},
 		"Colt M4A1 5.56x45 assault rifle" :{
 			"id": "5447a9cd4bdc2dbd208b4567",
-			"ergonomicsMultiplier": 1.02,
+			"ergonomicsMultiplier": 1.03,
 			"ergonomicsAbsolute": -1,
-			"verticalRecoilMultiplier": 0.98,
+			"verticalRecoilMultiplier": 0.97,
 			"verticalRecoilAbsolute": -1,
 			"horizontalRecoilMultiplier": 1,
 			"horizontalRecoilAbsolute": -1,
@@ -28,9 +28,9 @@
 		},
 		"HK 416A5 5.56x45 assault rifle" :{
 			"id": "5bb2475ed4351e00853264e3",
-			"ergonomicsMultiplier": 1.02,
+			"ergonomicsMultiplier": 1.03,
 			"ergonomicsAbsolute": -1,
-			"verticalRecoilMultiplier": 0.98,
+			"verticalRecoilMultiplier": 0.97,
 			"verticalRecoilAbsolute": -1,
 			"horizontalRecoilMultiplier": 1,
 			"horizontalRecoilAbsolute": -1,
@@ -41,9 +41,9 @@
 		},
 		"Lone Star TX-15 DML 5.56x45 carbine" :{
 			"id": "5d43021ca4b9362eab4b5e25",
-			"ergonomicsMultiplier": 1.02,
+			"ergonomicsMultiplier": 1.03,
 			"ergonomicsAbsolute": -1,
-			"verticalRecoilMultiplier": 0.98,
+			"verticalRecoilMultiplier": 0.97,
 			"verticalRecoilAbsolute": -1,
 			"horizontalRecoilMultiplier": 1,
 			"horizontalRecoilAbsolute": -1,
@@ -571,6 +571,34 @@
 			"cameraRecoilAbsolute": -1
 		}
 	},
+	"avt-40/svt-40 group": {
+		"Tokarev AVT-40 7.62x54R automatic rifle" :{
+			"id": "6410733d5dd49d77bd07847e",
+			"ergonomicsMultiplier": 1,
+			"ergonomicsAbsolute": -1,
+			"verticalRecoilMultiplier": 1,
+			"verticalRecoilAbsolute": -1,
+			"horizontalRecoilMultiplier": 1,
+			"horizontalRecoilAbsolute": -1,
+			"cameraSnapMultiplier": 1,
+			"cameraSnapAbsolute": -1,
+			"cameraRecoilMultiplier": 1,
+			"cameraRecoilAbsolute": -1
+		},
+		"Tokarev SVT-40 7.62x54R rifle" :{
+			"id": "643ea5b23db6f9f57107d9fd",
+			"ergonomicsMultiplier": 1,
+			"ergonomicsAbsolute": -1,
+			"verticalRecoilMultiplier": 1,
+			"verticalRecoilAbsolute": -1,
+			"horizontalRecoilMultiplier": 1,
+			"horizontalRecoilAbsolute": -1,
+			"cameraSnapMultiplier": 1,
+			"cameraSnapAbsolute": -1,
+			"cameraRecoilMultiplier": 1,
+			"cameraRecoilAbsolute": -1
+		}
+	},
 	"rfb group": {
 		"Kel-Tec RFB 7.62x51 rifle" :{
 			"id": "5f2a9575926fd9352339381f",
@@ -617,6 +645,34 @@
 	"vpo101 group": {
 		"Molot VPO-101 'Vepr-Hunter' 7.62x51 carbine" :{
 			"id": "5c501a4d2e221602b412b540",
+			"ergonomicsMultiplier": 1,
+			"ergonomicsAbsolute": -1,
+			"verticalRecoilMultiplier": 1,
+			"verticalRecoilAbsolute": -1,
+			"horizontalRecoilMultiplier": 1,
+			"horizontalRecoilAbsolute": -1,
+			"cameraSnapMultiplier": 1,
+			"cameraSnapAbsolute": -1,
+			"cameraRecoilMultiplier": 1,
+			"cameraRecoilAbsolute": -1
+		}
+	},
+	"pkm/pkp group": {
+		"Kalashnikov PKM 7.62x54R machine gun" :{
+			"id": "64637076203536ad5600c990",
+			"ergonomicsMultiplier": 1,
+			"ergonomicsAbsolute": -1,
+			"verticalRecoilMultiplier": 1,
+			"verticalRecoilAbsolute": -1,
+			"horizontalRecoilMultiplier": 1,
+			"horizontalRecoilAbsolute": -1,
+			"cameraSnapMultiplier": 1,
+			"cameraSnapAbsolute": -1,
+			"cameraRecoilMultiplier": 1,
+			"cameraRecoilAbsolute": -1
+		},
+		"Kalashnikov PKP 7.62x54R infantry machine gun" :{
+			"id": "64ca3d3954fc657e230529cc",
 			"ergonomicsMultiplier": 1,
 			"ergonomicsAbsolute": -1,
 			"verticalRecoilMultiplier": 1,
