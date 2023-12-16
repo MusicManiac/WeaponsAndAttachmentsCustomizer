@@ -1,6 +1,6 @@
 {
     "name": "MusicManiac-WeaponsAndAttachmentsCustomizer",
-    "version": "1.5.3",
+    "version": "1.5.0",
     "main": "src/mod.js",
     "license": "MIT",
     "author": "MusicManiac",
